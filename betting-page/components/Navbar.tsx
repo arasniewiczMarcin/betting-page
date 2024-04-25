@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import { useState, useEffect } from "react";
 import {
   Navbar,
   MobileNav,
@@ -10,16 +10,23 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import logo from "/public/logos/logo3.jpg";
+
+
  
 const NavbarComponent = () => {
-  const [openNav, setOpenNav] = React.useState(false);
+  const [openNav, setOpenNav] = useState(false);
+  const [accountBalance, setAccountBalance] = useState(0);
  
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false),
     );
   }, []);
+
+  const addMoney = (amount: number) => {
+    setAccountBalance(accountBalance + amount);
+  }
  
   const pages = (
     <ul className="mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -80,11 +87,27 @@ const NavbarComponent = () => {
         <div className="hidden lg:block">
           {pages}
         </div>
-        <div className="flex items-center gap-x-1">
+        <div className="flex items-center gap-x-4 ">
           <Button
             variant="gradient"
             size="sm"
-            className="hidden lg:inline-block bg-blue-800"
+            className="hidden lg:inline-block bg-black rounded-full p-2 bg-opacity-50"
+            onClick={() => addMoney(10)}
+            placeholder={undefined} 
+            onPointerEnterCapture={undefined} 
+            onPointerLeaveCapture={undefined}
+            >
+        <div className="flex items-center gap-x-1">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+            <span>{accountBalance}€</span>
+          </div>
+          </Button>
+          <Button
+            variant="gradient"
+            size="sm"
+            className="hidden lg:inline-block rounded-full p-2"
             placeholder={undefined} 
             onPointerEnterCapture={undefined} 
             onPointerLeaveCapture={undefined}
