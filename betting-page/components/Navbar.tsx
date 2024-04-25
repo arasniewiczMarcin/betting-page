@@ -82,7 +82,7 @@ const NavbarComponent = () => {
   );
  
   return (
-    <Navbar className="bg-blue-800 max-w-screen py-2 lg:px-8" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+    <Navbar className="bg-blue-800 max-w-screen py-2 lg:px-8 text-white" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <div className="hidden lg:block">
           {pages}
@@ -91,16 +91,16 @@ const NavbarComponent = () => {
           <Button
             variant="gradient"
             size="sm"
-            className="hidden lg:inline-block bg-black rounded-full p-2 bg-opacity-50"
+            className="hidden lg:inline-block bg-black rounded-full p-1 bg-opacity-50"
             onClick={() => addMoney(10)}
             placeholder={undefined} 
             onPointerEnterCapture={undefined} 
             onPointerLeaveCapture={undefined}
             >
-        <div className="flex items-center gap-x-1">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
+          <div className="flex items-center gap-x-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
             <span>{accountBalance}€</span>
           </div>
           </Button>
