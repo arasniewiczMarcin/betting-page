@@ -2,9 +2,7 @@
 
 import { useEffect, useState, SetStateAction } from "react";
 import fixtures from "../public/mocks/mock_premier_league.json";
-import { Button, Card, CardBody, CardFooter, CardHeader } from "@material-tailwind/react";
-import Image from "next/image";
-
+import { Button, Card, CardBody } from "@material-tailwind/react";
 const Fixtures = () => {
 const [data, setData] = useState<SetStateAction<any>>([]);
 
@@ -29,7 +27,8 @@ const [data, setData] = useState<SetStateAction<any>>([]);
     }
     return (
         <div>
-            {data.map((fixture: any, index: number) => (
+            {data.sort((a: any, b: any) => new Date(a.fixture.date).getTime() - new Date(b.fixture.date).getTime())
+              .map((fixture: any, index: number) => (
             <Card className="mt-6 w-full bg-white p-2 rounded-lg" key={index} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                 <CardBody placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} className="p-2 mb-1 flex justify-between gap-8">
 

@@ -29,7 +29,7 @@ const NavbarComponent = () => {
   }
  
   const pages = (
-    <ul className="mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className=" flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-6">
       <Link href="/"> 
         <Image src={logo} height={200} width={200} alt="FunBet" className="w-48 h-fit mx-16"/>
       </Link> 
