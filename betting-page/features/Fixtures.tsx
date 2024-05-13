@@ -26,7 +26,7 @@ const [data, setData] = useState<SetStateAction<any>>([]);
         return time.split("T")[0].split("-").reverse().join("-").slice(0, 5);
     }
     return (
-        <div>
+        <div className="grow">
             {data.sort((a: any, b: any) => new Date(a.fixture.date).getTime() - new Date(b.fixture.date).getTime())
               .map((fixture: any, index: number) => (
             <Card className="mt-6 w-full bg-white p-2 rounded-lg" key={index} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>

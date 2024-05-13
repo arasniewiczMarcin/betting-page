@@ -1,0 +1,47 @@
+{
+    "matches": [
+        {
+            "odd": 1.51,
+            "homeTeam": "Real Madrid",
+            "awayTeam": "Barcelona",
+            "type": "Real Madrid"
+        },
+        {
+            "odd": 2.58,
+            "homeTeam": "Chelsea",
+            "awayTeam": "Manchester United",
+            "type": "Chelsea"
+        },
+        {
+            "odd": 1.53,
+            "homeTeam": "Valencia",
+            "awayTeam": "Granada",
+            "type": "Draw"
+
+        },
+        {
+            "odd": 3.54,
+            "homeTeam": "Everton",
+            "awayTeam": "Brighton",
+            "type": "Brighton"
+        },
+        {
+            "odd": 1.20,
+            "homeTeam": "Everton",
+            "awayTeam": "Brighton",
+            "type": "Brighton"
+        },
+        {
+            "odd": 1.20,
+            "homeTeam": "Everton",
+            "awayTeam": "Brighton",
+            "type": "Brighton"
+        },
+        {
+            "odd": 1.20,
+            "homeTeam": "Everton",
+            "awayTeam": "Brighton",
+            "type": "Brighton"
+        }
+    ]
+}
