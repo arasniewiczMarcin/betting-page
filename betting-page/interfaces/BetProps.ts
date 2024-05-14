@@ -1,6 +1,6 @@
-import Match from './Match';
+import type Match from './Match'
 
 interface Matches {
-    matches: Match[];
+  matches: Match[]
 }
-export default Matches;
+export default Matches
