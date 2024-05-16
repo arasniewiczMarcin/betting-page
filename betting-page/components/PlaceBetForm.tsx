@@ -17,6 +17,10 @@ const PlaceBetForm = (props: PlaceBetFormProps): JSX.Element => {
   const stake = watch('stake')
   const onSubmit: SubmitHandler<Inputs> = (data) => { console.log(data) }
 
+  const getReturnValue = (): string => {
+    return props.odd !== undefined ? (props.odd * stake).toFixed(2) : '0.00'
+  }
+
   return (
         <form onSubmit={handleSubmit(onSubmit)} className="p-4 rounded-lg mt-auto">
             {/* include validation with required or other standard HTML validation rules */}
@@ -27,7 +31,7 @@ const PlaceBetForm = (props: PlaceBetFormProps): JSX.Element => {
             </div>
             <div className="pb-4 flex gap-2">
                 <label>To return</label>
-                <label className="ml-auto m">{(props.odd * stake).toFixed(2)} €</label>
+                <label className="ml-auto m">{getReturnValue()} €</label>
             </div>
             <input type="submit" value={'Place Bet'} className="w-full py-2 px-4 bg-blue-700 text-white rounded cursor-pointer hover:bg-blue-700" />
         </form>

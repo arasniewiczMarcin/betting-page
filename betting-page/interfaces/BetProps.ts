@@ -1,4 +1,4 @@
-import type Match from './Match'
+import type Match from '@/interfaces/Match'
 
 interface Matches {
   matches: Match[]

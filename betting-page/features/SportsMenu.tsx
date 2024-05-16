@@ -1,11 +1,23 @@
 'use client'
-import { Menu, MenuHandler, Button, MenuItem, MenuList } from '@material-tailwind/react'
 import React from 'react'
+import leagues from '@/public/data/leagues.json'
 
-const SportsMenu = (): JSX.Element => {
+interface SportsMenuProps {
+  setLeague: (league: number) => void
+}
+
+const SportsMenu = (props: SportsMenuProps): JSX.Element => {
   return (
-        <div className="flex flex-col w-80 pl-4 py-4">
-            <h1 className="pb-2 bold text-md font-semibold">Sports</h1>
+        <div className="mt-2 ml-6">
+            <h1 className="p-2 bold text-md font-semibold">Popular Leagues</h1>
+            <div className="flex flex-col w-64 divide-y bg-white px-2 rounded-lg">
+                {leagues.response.slice(0, 9).map((league: any, index: number) => (
+                    <div key={index} onClick={() => { props.setLeague(league.league.id as number) }} className="text-xs font-semibold w-full bg-white px-2 py-3 rounded-lg hover:cursor-pointer">
+                        {league.league.name}
+                    </div>
+                ))}
+            </div>
+            {/* <h1 className="pb-2 bold text-md font-semibold">Sports</h1>
             <Menu>
                 <MenuHandler>
                     <Button
@@ -30,7 +42,7 @@ const SportsMenu = (): JSX.Element => {
                         Menu Item 1
                     </MenuItem>
                 </MenuList>
-            </Menu>
+  </Menu> */}
         </div>
   )
 }
