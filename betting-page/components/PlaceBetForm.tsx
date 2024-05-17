@@ -18,7 +18,7 @@ const PlaceBetForm = (props: PlaceBetFormProps): JSX.Element => {
   const onSubmit: SubmitHandler<Inputs> = (data) => { console.log(data) }
 
   const getReturnValue = (): string => {
-    return props.odd !== undefined ? (props.odd * stake).toFixed(2) : '0.00'
+    return (props.odd !== undefined && !isNaN(stake)) ? (props.odd * stake).toFixed(2) : '0.00'
   }
 
   return (

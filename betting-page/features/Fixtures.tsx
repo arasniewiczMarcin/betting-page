@@ -26,6 +26,15 @@ const Fixtures = (props: FixturesProps): JSX.Element => {
     if (date.getMonth() < 6) return `${date.getFullYear()}-07-01`
     return `${date.getFullYear() + 1}-07-01`
   }
+  const getMatchDate = (time: string): string => {
+    return time.split('T')[0].split('-').reverse().join('-').slice(0, 5)
+  }
+  const getOdds = (): string[] => {
+    const homeWin = Math.random() * 0.8 + 0.1
+    const awayWin = Math.random() * (0.9 - homeWin) + 0.1
+    const draw = (1 - homeWin - awayWin) + 0.1
+    return [(1 / homeWin).toFixed(2), (1 / draw).toFixed(2), (1 / awayWin).toFixed(2)]
+  }
 
   useEffect(() => {
     fetch(`https://v3.football.api-sports.io/fixtures?league=${props.league}&season=2023&from=${getTodayDate()}&to=${getEndOfTheSeasonDate()}`, {
@@ -43,12 +52,12 @@ const Fixtures = (props: FixturesProps): JSX.Element => {
 
     // setData(fixtures.response)
   }, [props.league])
-  const getMatchDate = (time: string): string => {
-    return time.split('T')[0].split('-').reverse().join('-').slice(0, 5)
-  }
+
   return (
         <div className="grow">
-            {data?.sort((a: any, b: any) => new Date(a.fixture.date as string).getTime() - new Date(b.fixture.date as string).getTime()).map((fixture: any, index: number) => (
+            {data?.sort((a: any, b: any) => new Date(a.fixture.date as string).getTime() - new Date(b.fixture.date as string).getTime()).map((fixture: any, index: number) => {
+              const [homeWin, draw, awayWin] = getOdds()
+              return (
             <Card className="mt-6 w-full bg-white p-2 rounded-lg" key={index} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                 <CardBody placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} className="p-2 mb-1 flex justify-between gap-8">
 
@@ -78,7 +87,7 @@ const Fixtures = (props: FixturesProps): JSX.Element => {
                         >
                           <div className="flex justify-between">
                             <p className="text-left">1</p>
-                            <p className="text-right">1.72</p>
+                            <p className="text-right">{homeWin}</p>
                           </div>
 
                         </Button>
@@ -92,7 +101,7 @@ const Fixtures = (props: FixturesProps): JSX.Element => {
                         >
                           <div className="flex justify-between">
                             <p className="text-left">X</p>
-                            <p className="text-right">3.50</p>
+                            <p className="text-right">{draw}</p>
                           </div>
 
                         </Button>
@@ -106,7 +115,7 @@ const Fixtures = (props: FixturesProps): JSX.Element => {
                         >
                           <div className="flex justify-between">
                             <p className="text-left">2</p>
-                            <p className="text-right">4.75</p>
+                            <p className="text-right">{awayWin}</p>
                           </div>
 
                         </Button>
@@ -116,7 +125,8 @@ const Fixtures = (props: FixturesProps): JSX.Element => {
 
                 </CardBody>
               </Card>
-            ))}
+              )
+            })}
         </div>
   )
 }
