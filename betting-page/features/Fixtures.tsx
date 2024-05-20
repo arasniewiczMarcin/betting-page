@@ -1,37 +1,28 @@
 'use client'
-
-import { useEffect, useState, type SetStateAction } from 'react'
 import { Card, CardBody } from '@material-tailwind/react'
-import React from 'react'
+import React, { type SetStateAction, useEffect, useState } from 'react'
 import BetButton from '@/components/BetButton'
+import type SelectedMatches from '@/interfaces/SelectedMatches'
+import getMatchDate from '@/utils/getMatchDate'
+import getParsedLinkForFixtures from '@/utils/getParsedLinkForFixtures'
+import odds from '@/public/mocks/odds.json'
+
 interface FixturesProps {
   league: number
+  setSelectedMatches: (selectedMatches: SelectedMatches[]) => void
+  selectedMatches: SelectedMatches[]
 }
 
 const Fixtures = (props: FixturesProps): JSX.Element => {
   const [data, setData] = useState<SetStateAction<any>>([])
 
-  const getTodayDate = (): string => {
-    const date = new Date().toISOString().split('T')[0]
-    return date
-  }
-  const getEndOfTheSeasonDate = (): string => {
-    const date = new Date()
-    if (date.getMonth() < 6) return `${date.getFullYear()}-07-01`
-    return `${date.getFullYear() + 1}-07-01`
-  }
-  const getMatchDate = (time: string): string => {
-    return time.split('T')[0].split('-').reverse().join('-').slice(0, 5)
-  }
-  const getOdds = (): string[] => {
-    const homeWin = Math.random() * 0.8 + 0.1
-    const awayWin = Math.random() * (0.9 - homeWin) + 0.1
-    const draw = (1 - homeWin - awayWin) + 0.1
-    return [(1 / homeWin).toFixed(2), (1 / draw).toFixed(2), (1 / awayWin).toFixed(2)]
+  const handleBetClick = (home: string, away: string, type: string, odd: string): void => {
+    props.setSelectedMatches([...props.selectedMatches.filter((match: SelectedMatches) => match.home !== home), { home, away, type, odd }])
   }
 
   useEffect(() => {
-    fetch(`https://v3.football.api-sports.io/fixtures?league=${props.league}&season=2023&from=${getTodayDate()}&to=${getEndOfTheSeasonDate()}`, {
+    const parsedLink = getParsedLinkForFixtures(props.league)
+    fetch(parsedLink, {
       method: 'GET',
       headers: {
         'x-rapidapi-host': 'v3.football.api-sports.io',
@@ -43,14 +34,12 @@ const Fixtures = (props: FixturesProps): JSX.Element => {
       .catch(err => {
         console.log(err)
       })
-
-    // setData(fixtures.response)
   }, [props.league])
 
   return (
         <div className="grow">
             {data?.sort((a: any, b: any) => new Date(a.fixture.date as string).getTime() - new Date(b.fixture.date as string).getTime()).map((fixture: any, index: number) => {
-              const [homeWin, draw, awayWin] = getOdds()
+              const { home, draw, away } = odds.odds[index]
               return (
             <Card className="mt-6 w-full bg-white p-2 rounded-lg" key={index} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                 <CardBody placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} className="p-2 mb-1 flex justify-between gap-8">
@@ -71,9 +60,9 @@ const Fixtures = (props: FixturesProps): JSX.Element => {
                     <div className="flex flex-col justify-between">
                       <p className="flex items-center mb-2 text-xs text-black/50">Match</p>
                       <div className="flex gap-2">
-                        <BetButton odd={homeWin} type="1" />
-                        <BetButton odd={draw} type="X" />
-                        <BetButton odd={awayWin} type="2" />
+                        <BetButton odd={home} type="1" home={fixture.teams.home.name} away={fixture.teams.away.name} handleClick={handleBetClick} />
+                        <BetButton odd={draw} type="X" home={fixture.teams.home.name} away={fixture.teams.away.name} handleClick={handleBetClick} />
+                        <BetButton odd={away} type="2" home={fixture.teams.home.name} away={fixture.teams.away.name} handleClick={handleBetClick} />
                       </div>
 
                     </div>

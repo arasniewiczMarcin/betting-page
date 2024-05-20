@@ -3,16 +3,13 @@ import { Card, CardBody, Typography } from '@material-tailwind/react'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import PlaceBetForm from '@/components/PlaceBetForm'
-
-interface Match {
-  odd: number
-  homeTeam: string
-  awayTeam: string
-  type: string
-}
+import type SelectedMatches from '@/interfaces/SelectedMatches'
+import type MyBetsType from '@/interfaces/MyBetsType'
 
 interface BetProps {
-  matches: Match[]
+  matches: SelectedMatches[]
+  setMatches: (selectedMatches: SelectedMatches[]) => void
+  setMyBets: (myBets: MyBetsType[]) => void
 }
 
 const Bet = (props: BetProps): JSX.Element => {
@@ -30,10 +27,23 @@ const Bet = (props: BetProps): JSX.Element => {
 
   const countOdds = (): number => {
     let odds = 1
-    props.matches.forEach((match: Match) => {
-      odds *= match.odd
+    props.matches.forEach((match: SelectedMatches) => {
+      odds *= parseFloat(match.odd)
     })
-    return odds
+    return odds > 1 ? odds : 0
+  }
+
+  const deleteMatch = (name: string): void => {
+    const newMatches = props.matches.filter((match: SelectedMatches) => match.home !== name)
+    props.setMatches(newMatches)
+  }
+  const sendBet = (stake: number): void => {
+    const bets = props.matches.map((match: SelectedMatches) => {
+      return { stake, ...match }
+    })
+    props.setMyBets(bets)
+    props.setMatches([])
+    console.log(bets)
   }
 
   return (
@@ -42,14 +52,14 @@ const Bet = (props: BetProps): JSX.Element => {
                 {title}
             </Typography>
             <div className="overflow-y-auto px-2">
-            {props.matches.map((match: Match, index: number) => (
+            {props.matches.map((match: SelectedMatches, index: number) => (
                 <Card className="w-full bg-white p-2 rounded-lg border" key={index} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                     <CardBody className="" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} >
                         <div className="flex justify-between gap-8">
                             <div className="text-[10px] font-semibold">
-                                {match.homeTeam} - {match.awayTeam}
+                                {match.home} - {match.away}
                             </div>
-                            <Image src={cancelIcon} alt="Cancel" width={13} height={13} />
+                            <Image className='cursor-pointer' src={cancelIcon} alt="Cancel" width={13} height={13} onClick={() => { deleteMatch(match.home) }} />
                         </div>
                         <div className="flex justify-between gap-8 py-2">
                             <div className="flex gap-1">
@@ -68,7 +78,7 @@ const Bet = (props: BetProps): JSX.Element => {
                 </Card>
             ))}
             </div>
-            <PlaceBetForm odd={countOdds()} />
+            <PlaceBetForm odd={countOdds()} setMyBets={sendBet} />
         </div>
   )
 }

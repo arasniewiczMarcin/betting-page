@@ -4,6 +4,9 @@ import React from 'react'
 interface BetButtonProps {
   odd: string
   type: string
+  home: string
+  away: string
+  handleClick: (home: string, away: string, type: string, odd: string) => void
 }
 
 const BetButton = (props: BetButtonProps): JSX.Element => (
@@ -14,6 +17,7 @@ const BetButton = (props: BetButtonProps): JSX.Element => (
     placeholder={undefined}
     onPointerEnterCapture={undefined}
     onPointerLeaveCapture={undefined}
+    onClick={() => { props.handleClick(props.home, props.away, props.type, props.odd) }}
     >
         <div className="flex justify-between">
             <p className="text-left">{props.type}</p>

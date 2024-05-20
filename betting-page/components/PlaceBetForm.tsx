@@ -2,11 +2,12 @@ import { useForm, type SubmitHandler } from 'react-hook-form'
 import React from 'react'
 interface PlaceBetFormProps {
   odd: number
+  setMyBets: (stake: string) => void
 }
 
 const PlaceBetForm = (props: PlaceBetFormProps): JSX.Element => {
   interface Inputs {
-    stake: number
+    stake: string
   }
 
   const {
@@ -15,15 +16,16 @@ const PlaceBetForm = (props: PlaceBetFormProps): JSX.Element => {
     watch
   } = useForm<Inputs>()
   const stake = watch('stake')
-  const onSubmit: SubmitHandler<Inputs> = (data) => { console.log(data) }
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    props.setMyBets(stake)
+  }
 
   const getReturnValue = (): string => {
-    return (props.odd !== undefined && !isNaN(stake)) ? (props.odd * stake).toFixed(2) : '0.00'
+    return (props.odd !== undefined && !isNaN(parseFloat(stake))) ? (props.odd * parseFloat(stake)).toFixed(2) : '0.00'
   }
 
   return (
         <form onSubmit={handleSubmit(onSubmit)} className="p-4 rounded-lg mt-auto">
-            {/* include validation with required or other standard HTML validation rules */}
             <div className="flex gap-2">
                 <input {...register('stake', { required: true })} placeholder="stake" className="w-28 py-1 px-2 mb-4 rounded-md border border-gray-300" />
                 <label className="py-2">€</label>

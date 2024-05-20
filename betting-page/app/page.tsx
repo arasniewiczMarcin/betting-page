@@ -2,19 +2,23 @@
 import Bet from '@/features/Bet'
 import Fixtures from '@/features/Fixtures'
 import SportsMenu from '@/features/SportsMenu'
-import matches from '@/public/mocks/mock_bet.json'
-import type Match from '@/interfaces/Match'
 import React, { useState } from 'react'
+import type SelectedMatches from '@/interfaces/SelectedMatches'
+import MyBets from '@/features/MyBets'
+import type MyBetsType from '@/interfaces/MyBetsType'
 
 const Home = (): JSX.Element => {
-  const match: Match[] = matches.matches
   const [league, setLeague] = useState<number>(39)
-
+  const [selectedMatches, setSelectedMatches] = useState<SelectedMatches[]>([])
+  const [myBets, setMyBets] = useState<MyBetsType[]>([])
   return (
       <div className="flex flex-row justify-center gap-6">
         <SportsMenu setLeague={setLeague}/>
-        <Fixtures league={league} />
-        <Bet matches={match} />
+        <Fixtures league={league} selectedMatches={selectedMatches} setSelectedMatches={setSelectedMatches} />
+        <div>
+          <Bet matches={selectedMatches} setMatches={setSelectedMatches} setMyBets={setMyBets} />
+          <MyBets myBets={myBets} />
+        </div>
       </div>
   )
 }
